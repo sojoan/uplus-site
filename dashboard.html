@@ -1,0 +1,16 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>U+ Dashboard</title></head>
+<body style="font-family:system-ui;background:#0F1117;color:#E6E8EC">
+<div style="max-width:980px;margin:0 auto;padding:24px">
+<h1>U+ Dashboard (Local)</h1>
+<pre id="out" style="white-space:pre-wrap;background:#121826;padding:16px;border-radius:8px"></pre>
+</div>
+<script>
+async function load(p){try{const r=await fetch(p); if(!r.ok) throw 0; return await r.json();}catch(e){return null;}}
+(async()=>{
+  const files=['data/roi_oracle.json','data/reinvest_plan.json','data/allocation_plan.json','data/elasticity_report.json','data/slo_alerts.json','data/meta_memo.json','data/treasury_advice.json'];
+  const out=document.getElementById('out'); let txt='';
+  for(const f of files){ const j=await load('../'+f); if(j) txt+= '\n\n== '+f+' ==\n'+JSON.stringify(j,null,2); }
+  out.textContent=txt||'No data yet. Run a workflow cycle.';
+})();
+</script>
+</body></html>

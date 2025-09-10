@@ -1,0 +1,63 @@
+<!doctype html><html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>U+ Suite v13 — Panel</title>
+<style>
+:root{--bg:#0F1117;--fg:#E6E8EC;--card:#151923;--brand:#6AE3F9}
+*{box-sizing:border-box}body{font-family:-apple-system,system-ui;background:var(--bg);color:var(--fg);margin:0}
+.c{max-width:1100px;margin:0 auto;padding:24px}.card{background:var(--card);border-radius:16px;padding:20px;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+h1{display:flex;align-items:center;gap:10px}
+.grid{display:grid;gap:16px;grid-template-columns:1fr;}.k{font:600 32px/1 system-ui} .muted{color:#A4A8AE}
+@media(min-width:920px){.grid{grid-template-columns:1fr 1fr}}
+table{width:100%;border-collapse:collapse}.t th,.t td{padding:8px;border-bottom:1px solid #222a3a;text-align:left}
+.btn{display:inline-block;padding:10px 14px;border-radius:12px;background:var(--brand);color:#000;text-decoration:none;font-weight:800}
+</style><link rel="manifest" href="manifest.webmanifest">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "U+",
+  "url": "https://example.com",
+  "logo": "https://example.com/icon-192.png"
+}
+</script>
+
+</head><body><div class="c">
+<h1>U+ Suite v13 <span class="muted">— ZeroTouch + Orquestador + Pagos</span></h1>
+<div class="grid">
+  <div class="card"><h2>Resumen</h2><div id="sum">Cargando…</div></div>
+  <div class="card"><h2>Acciones</h2><p><a class="btn" href="pricing.html">Planes & Suscripción</a> <a class="btn" href="../portfolio/index.html">Portfolio</a></p></div>
+</div>
+<div class="card"><h2>Páginas recientes</h2><table class="t"><thead><tr><th>Slug</th><th>Palabras</th><th>Sim</th><th>Fecha</th></tr></thead><tbody id="tb"></tbody></table></div>
+<script>
+async function J(p){try{const r=await fetch(p,{cache:'no-store'});return r.ok?await r.json():null}catch{return null}}
+async function T(p){try{const r=await fetch(p,{cache:'no-store'});return r.ok?await r.text():""}catch{return ""}}
+;(async function(){
+  const pages=await J('../pages.json'); const ledger=(await T('../data/ledger.csv')).trim().split(/\r?\n/).slice(1).slice(-50);
+  let total=0; for(const l of ledger){const c=l.split(','); total += +c[10]||+c[4]||0;}
+  const q=(await T('../data/queue.jsonl')).split(/\r?\n/).filter(Boolean).length;
+  const ok=Object.values((pages&&pages.meta)||{}).filter(m=>m.ok).length, sk=Object.values((pages&&pages.meta)||{}).filter(m=>!m.ok).length;
+  document.getElementById('sum').innerHTML = `<p>OK: <b>${ok}</b> · Skipped: <b>${sk}</b> · Cola: <b>${q}</b></p><p>Ingresos últimos ticks: <b>€${total.toFixed(2)}</b></p>`;
+  const tb=document.getElementById('tb'); if(pages&&pages.meta){ const rows=Object.entries(pages.meta).slice(-15).reverse();
+    for(const [slug,m] of rows){ if(!m.released_at) continue; const tr=document.createElement('tr'); tr.innerHTML=`<td><a href="./${slug}.html">${slug}</a></td><td>${m.words||0}</td><td>${m.sim||0}</td><td>${m.released_at.split('T')[0]}</td>`; tb.appendChild(tr);}}
+})();
+</script>
+</div><script src="cta_router.js"></script>
+
+<div class="sticky-nav" style="position:fixed;bottom:0;left:0;right:0;background:#151923;border-top:1px solid #222a3a;display:flex;gap:12px;justify-content:center;padding:10px 12px;z-index:9999">
+  <a class="btn" href="pricing.html">Pro</a>
+  <a class="btn" href="best-of.html">Best‑of</a>
+  <a class="btn" href="../portfolio/index.html">Portfolio</a>
+</div>
+<script src="consent.js"></script>
+<script src="social_proof.js"></script>
+<script src="cta_mode.js"></script>
+<script src="paywall_mode.js"></script>
+
+<footer style="max-width:880px;margin:60px auto 100px;opacity:.8">
+  <a href="privacidad.html">Privacidad</a> · <a href="terminos.html">Términos</a> · <a href="cookies.html">Cookies</a>
+</footer>
+<script src="cta_mode.js"></script>
+<script src="paywall_mode.js"></script>
+<script src="heatmap.js"></script>
+</body></html>

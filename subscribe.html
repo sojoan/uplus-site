@@ -1,0 +1,9 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>U+ — Suscripción</title>
+<script>
+(async function(){
+  const plan=(new URL(location.href)).searchParams.get('plan')||'month';
+  const r=await fetch('/api/checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan})});
+  if(!r.ok){document.body.innerHTML='<p style="font-family:system-ui;padding:24px">Error creando checkout.</p>';return;}
+  const j=await r.json(); location.href=j.url;
+})();
+</script></head><body><p style='font-family:system-ui;padding:24px'>Redirigiendo a Stripe…</p></body></html>

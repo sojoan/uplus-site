@@ -1,0 +1,17 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>U+ — Bundles</title></head>
+<body style="font-family:-apple-system,system-ui;background:#0F1117;color:#E6E8EC;margin:0">
+<div class="c" style="max-width:880px;margin:0 auto;padding:24px">
+  <h1>Bundles</h1>
+  <div class="card" style="background:#151923;border-radius:16px;padding:20px">
+    <h2>Pack Nicho Local (5 assets)</h2>
+    <p>Plantillas + datasets + landing hooks.</p>
+    <button onclick="buy('price_BUNDLE1')">Comprar €39</button>
+  </div>
+</div>
+<script>
+async function buy(price_id){
+  const r=await fetch('/api/buy_once',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({price_id})});
+  const j=await r.json(); location.href=j.url;
+}
+</script>
+</body></html>

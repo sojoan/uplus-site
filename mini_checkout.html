@@ -1,0 +1,17 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>U+ — Mini Checkout</title></head>
+<body style="font-family:-apple-system,system-ui;background:#0F1117;color:#E6E8EC;margin:0">
+<div class="c" style="max-width:680px;margin:0 auto;padding:24px">
+  <h1>Activa U+ Pro desde 17 €/mes</h1>
+  <p>Pago seguro (Wallets, SEPA, Factura con impuestos).</p>
+  <button id="buy-m" style="padding:12px 16px;border-radius:12px;font-weight:800">Empezar (Mensual)</button>
+  <button id="buy-y" style="padding:12px 16px;border-radius:12px;font-weight:800;margin-left:8px">2 meses gratis (Anual)</button>
+</div>
+<script>
+async function go(plan, promo){
+  const r=await fetch('/api/checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan, promotion_code: promo||''})});
+  const j=await r.json(); location.href=j.url;
+}
+document.getElementById('buy-m').onclick=()=>go('month');
+document.getElementById('buy-y').onclick=()=>go('year');
+</script>
+</body></html>
